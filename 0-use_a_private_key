@@ -1,0 +1,3 @@
+#!/usr/bin/env bash
+
+ssh -i ~/.ssh/school -o 'User=ubuntu' 8.8.8.8
