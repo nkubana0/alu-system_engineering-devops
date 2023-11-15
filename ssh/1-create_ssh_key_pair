@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
-#Bash script that creates an RSA key pair.
-mkdir -p /Users/Shema/Documents/projects/ALU-WORK/alu-system_engineering-devops/ssh
-ssh-keygen -t rsa -b 4096 -f /Users/Shema/Documents/projects/ALU-WORK/alu-system_engineering-devops/ssh/school -N "betty" 
+#created private key must be school
+#bits = 4096
+#passphrase betty
+ssh-keygen -f school -b 4096 -N betty
