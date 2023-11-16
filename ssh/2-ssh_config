@@ -1,0 +1,3 @@
+#!/usr/bin/env bash
+#configurw
+ssh -i ~/.ssh/school ubuntu@54.175.61.33
