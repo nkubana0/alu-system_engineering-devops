@@ -1,6 +1,5 @@
 #!/usr/bin/env bash
-
-# Install nginx with -y option
+#Install nginx with -y option
 apt-get update
 apt-get install -y nginx
 
