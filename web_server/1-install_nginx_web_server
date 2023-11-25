@@ -1,24 +1,21 @@
 #!/usr/bin/env bash
-# Update package lists and upgrade
-sudo apt-get update && sudo apt-get upgrade -y
+# Installs Nginx with the following configurations:
+#+    Listens on port 80.
+#+    Returns a page containing "Holberton School" when queried
+#++    at the root with a curl GET request.
 
-# Install Nginx
-sudo apt-get install -y nginx
+apt-get update
+apt-get install -y nginx
 
-# Configure Nginx to serve content at root /
-echo 'server {
-    listen 80 default_server;
-    listen [::]:80 default_server;
+mkdir /etc/nginx/html
+touch /etc/nginx/html/index.html
+echo "Holberton School" > /etc/nginx/html/index.html
+printf %s "server {
+     listen      80 default_server;
+     listen      [::]:80 default_server;
+     root        /etc/nginx/html;
+     index       index.html index.htm;
+}
+" > /etc/nginx/sites-available/default
 
-    root /var/www/html;
-    index index.html;
-
-    server_name _;
-
-    location / {
-        echo "Holberton School for the win!";
-    }
-}' | sudo tee /etc/nginx/sites-available/default > /dev/null
-
-# Restart Nginx
 sudo service nginx restart
