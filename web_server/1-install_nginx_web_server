@@ -1,20 +1,25 @@
 #!/usr/bin/env bash
-#Install nginx with -y option
-apt-get update
-apt-get install -y nginx
 
-# Configure nginx to listen on port 80
-sed -i 's/80 default_server/80 default_server;/g' /etc/nginx/sites-available/default
+# Update package lists and upgrade
+sudo apt-get update && sudo apt-get upgrade -y
 
-# Restart nginx
-/etc/init.d/nginx restart
+# Install Nginx
+sudo apt-get install -y nginx
 
-echo "Holberton School for the win!" > /usr/share/nginx/html/index.html
+# Configure Nginx to serve content at root /
+echo 'server {
+    listen 80 default_server;
+    listen [::]:80 default_server;
 
-ps aux | grep nginx | grep -v grep > /dev/null
+    root /var/www/html;
+    index index.html;
 
-if [ $? -eq 0 ]; then
-    echo "Nginx installed and configured successfully."
-else
-    echo "Installation or configuration failed. Check nginx logs for more details."
-fi
+    server_name _;
+
+    location / {
+        echo "Holberton School for the win!";
+    }
+}' | sudo tee /etc/nginx/sites-available/default > /dev/null
+
+# Restart Nginx
+sudo service nginx restart
