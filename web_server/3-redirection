@@ -19,7 +19,7 @@ server {
 EOF
 
 sudo ln -s /etc/nginx/sites-available/redirect_me /etc/nginx/sites-enabled/
-
+#test nginx
 sudo nginx -t
 
 #Restart nginx
