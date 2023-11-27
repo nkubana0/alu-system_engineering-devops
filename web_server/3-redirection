@@ -1,0 +1,23 @@
+#!/usr/bin/env bash
+# Configure Nginx for Redirect
+
+# Install Nginx web server (if not already installed)
+./1-install_nginx_web_server
+
+# Create a configuration file for the redirection
+sudo sh -c 'echo "server {" > /etc/nginx/sites-available/3-redirection'
+sudo sh -c 'echo "    listen 80;" >> /etc/nginx/sites-available/3-redirection'
+sudo sh -c 'echo "    server_name _;" >> /etc/nginx/sites-available/3-redirection'
+sudo sh -c 'echo "    location /redirect_me {" >> /etc/nginx/sites-available/3-redirection'
+sudo sh -c 'echo "        return 301 https://www.youtube.com/watch?v=QH2-TGUlwu4;" >> /etc/nginx/sites-available/3-redirection'
+sudo sh -c 'echo "    }" >> /etc/nginx/sites-available/3-redirection'
+sudo sh -c 'echo "}" >> /etc/nginx/sites-available/3-redirection'
+
+# Create a symbolic link to enable the configuration
+sudo ln -s /etc/nginx/sites-available/3-redirection /etc/nginx/sites-enabled/
+
+# Test Nginx configuration
+sudo nginx -t
+
+# Reload Nginx to apply changes
+sudo service nginx reload
