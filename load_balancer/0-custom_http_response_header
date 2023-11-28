@@ -1,32 +1,17 @@
 #!/usr/bin/env bash
-# Update the package list
-sudo apt-get update
-
-# Install Nginx
-sudo apt-get install -y nginx
-
-# Get the hostname of the machine
-HOSTNAME=$(hostname)
-
-# Create a custom Nginx configuration file
-echo "server {
-    listen 80;
-    listen [::]:80 default_server;
-    server_name _;
-
-    root /var/www/html;
-    index index.html;
-
-    location / {
-        # Add a custom HTTP response header
-        add_header X-Served-By $HOSTNAME;
-
-        # Your existing location block configurations go here...
-    }
-
-    # Additional server configurations...
-
-}" | sudo tee /etc/nginx/sites-available/default > /dev/null
-
-# Restart Nginx to apply the changes
+#Installing and configuring Ngin
+sudo apt update -y
+sudo apt install nginx -y
+new_config=\
+"server {
+	listen 80 default_server;
+	listen [::]:80 default_server;
+		root /var/www/html;
+	index index.html index.html index.nginx-debian.html;
+	server_name _;
+	add_header X-Served-By $HOSTNAME;
+}
+"
+sudo chown -R "$USER":"$USER" /etc/nginx/sites-available/default
+echo "$new_config" > /etc/nginx/sites-available/default
 sudo service nginx restart
