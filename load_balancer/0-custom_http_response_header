@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-#Install and configuring Ngin
+#Install and configure Ngin
 sudo apt update -y
 sudo apt install nginx -y
 new_config=\
