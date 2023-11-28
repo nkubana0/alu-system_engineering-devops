@@ -41,3 +41,14 @@ echo "$custom_404_config" | sudo tee "$config_file" > /dev/null
 
 # Reload Nginx to apply the changes
 sudo service nginx reload
+
+# Verify the content of the custom 404 page
+content=$(curl -s http://localhost/404.html)
+
+# Check if the content contains the required string
+if [[ "$content" != *"Ceci n'est pas une page"* ]]; then
+    echo "Error: Custom 404 page content is incorrect."
+    exit 1
+fi
+
+echo "Custom 404 page configured successfully."
