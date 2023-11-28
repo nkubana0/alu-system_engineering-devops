@@ -26,7 +26,7 @@ server {
 }
 EOF
 
-# Test Nginx configuration
+# Test Nginx config
 sudo nginx -t
 
 # Reload Nginx to apply changes
