@@ -1,11 +1,16 @@
 #!/usr/bin/env bash
-# bash script that installs HAProxy & makes configurations to meet the following requirements:
+# Bash script that installs HAProxy and makes configurations to meet the specified requirements
 
+# Install HAProxy
 sudo apt-get install -y software-properties-common
 sudo add-apt-repository -y ppa:vbernat/haproxy-1.8
 sudo apt-get update
-sudo apt-get install -y haproxy=1.8.\*
+sudo apt-get install -y haproxy=1.8.*
 
+# Enable HAProxy to start on boot
+sudo update-rc.d haproxy defaults
+
+# Configure HAProxy
 echo "ENABLED=1" >> /etc/default/haproxy
 mv /etc/haproxy/haproxy.cfg{,.original}
 touch /etc/haproxy/haproxy.cfg
@@ -35,8 +40,9 @@ listen hbnb
     balance roundrobin
     option httpclose
     option forwardfor
-    server 5873-web-01 34.207.208.97:80 check
-    server 5873-web-02 18.212.99.114:80 check
+    server 5873-web-01 [IP_OF_WEB_01]:80 check
+    server 5873-web-02 [IP_OF_WEB_02]:80 check
 " >> /etc/haproxy/haproxy.cfg
 
+# Start HAProxy
 sudo service haproxy start
