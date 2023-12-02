@@ -1,48 +1,41 @@
 #!/usr/bin/env bash
-# Bash script that installs HAProxy and makes configurations to meet the specified requirements
-
 # Install HAProxy
-sudo apt-get install -y software-properties-common
-sudo add-apt-repository -y ppa:vbernat/haproxy-1.8
 sudo apt-get update
-sudo apt-get install -y haproxy=1.8.*
-
-# Enable HAProxy to start on boot
-sudo update-rc.d haproxy defaults
+sudo apt-get install -y haproxy
 
 # Configure HAProxy
-echo "ENABLED=1" >> /etc/default/haproxy
-mv /etc/haproxy/haproxy.cfg{,.original}
-touch /etc/haproxy/haproxy.cfg
-
-printf %s "global
-    log 127.0.0.1 local0 notice
-    maxconn 2000
+cat <<EOL | sudo tee /etc/haproxy/haproxy.cfg
+global
+    log /dev/log    local0
+    log /dev/log    local1 notice
+    chroot /var/lib/haproxy
+    stats socket /run/haproxy/admin.sock mode 660 level admin
+    stats timeout 30s
     user haproxy
     group haproxy
+    daemon
 
 defaults
     log     global
     mode    http
     option  httplog
     option  dontlognull
-    retries 3
-    option redispatch
-    timeout connect  5000
-    timeout client  10000
-    timeout server  10000
+    timeout connect 5000
+    timeout client  50000
+    timeout server  50000
 
-listen hbnb
-    bind 0.0.0.0:80
-    mode http
-    stats enable
-    stats uri /haproxy?stats
+frontend main
+    bind *:80
+    default_backend web_servers
+
+backend web_servers
     balance roundrobin
-    option httpclose
-    option forwardfor
-    server 5873-web-01 [IP_OF_WEB_01]:80 check
-    server 5873-web-02 [IP_OF_WEB_02]:80 check
-" >> /etc/haproxy/haproxy.cfg
+    server web-01 $5779-web-01:80 check
+    server web-02 $5779-web-02:80 check
+EOL
 
-# Start HAProxy
-sudo service haproxy start
+# Enable HAProxy init script
+sudo systemctl enable haproxy
+
+# Restart HAProxy to apply changes
+sudo systemctl restart haproxy
