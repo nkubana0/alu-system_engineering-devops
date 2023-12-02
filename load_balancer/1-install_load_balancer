@@ -30,12 +30,15 @@ frontend main
 
 backend web_servers
     balance roundrobin
-    server web-01 $5779-web-01:80 check
-    server web-02 $5779-web-02:80 check
+    server web-01 $(hostname)-web-01:80 check
+    server web-02 $(hostname)-web-02:80 check
 EOL
 
 # Enable HAProxy init script
-sudo systemctl enable haproxy
+sudo service haproxy enable
 
 # Restart HAProxy to apply changes
-sudo systemctl restart haproxy
+sudo service haproxy restart
+
+# Output information
+echo "HAProxy configured to send traffic to web-01 and web-02."
