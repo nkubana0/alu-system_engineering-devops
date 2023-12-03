@@ -1,0 +1,15 @@
+#!/usr/bin/env bash
+# port forwarding
+
+# Allow incoming traffic on port 8080
+sudo ufw allow 8080/tcp
+
+# Redirect traffic from port 8080 to port 80
+sudo iptables -t nat -A PREROUTING -p tcp --dport 8080 -j REDIRECT --to-port 80
+
+# Save the iptables rules
+sudo mkdir -p /etc/iptables/
+sudo sh -c 'iptables-save > /etc/iptables/rules.v4'
+
+# Reload UFW to apply the changes
+sudo ufw reload
