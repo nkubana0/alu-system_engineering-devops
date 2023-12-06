@@ -1,23 +1,4 @@
 #!/usr/bin/env bash
-# Install Nginx (if not already installed)
-apt-get update
-apt-get install -y nginx
-
-# Check if Nginx is running
-if ! pgrep -x "nginx" > /dev/null; then
-    # Configure Nginx to listen on port 80 for all active IPv4 IPs
-    sed -i 's/^\(\s*listen\s*.*:\)\(.*\)/\180;\2/' /etc/nginx/sites-available/default
-
-    # Restart Nginx to apply changes
-    service nginx restart
-fi
-
-# Check if Nginx is responding with HTTP 200 on port 80
-response=$(curl -Is http://localhost | head -n 1 | cut -d ' ' -f 2)
-
-# Return the expected value (2) based on the HTTP response
-if [ "$response" == "200" ]; then
-    exit 2
-else
-    exit 1
-fi
+# bash script that configures 'nginx' to run & listen to port 80
+sed -i 's/8080/80/g' /etc/nginx/sites-enabled/default
+service nginx restart
