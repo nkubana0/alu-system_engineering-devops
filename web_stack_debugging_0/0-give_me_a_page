@@ -1,0 +1,21 @@
+#!/usr/bin/env bash
+# Start the Docker container
+docker run -p 8080:80 -d -it holbertonschool/265-0
+
+# Check the status of the Docker container
+docker ps
+
+# Access the Docker container's shell
+docker exec -it gracious_pascal /bin/bash
+
+# Now you are inside the Docker container. Check Apache's status and logs
+service apache2 status
+
+# Restart Apache after making changes
+service apache2 restart
+
+# Exit the Docker container's shell
+exit
+
+# Now, try curling the port 8080 again
+curl 0:8080
