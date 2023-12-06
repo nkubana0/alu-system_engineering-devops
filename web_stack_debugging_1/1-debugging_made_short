@@ -1,5 +1,18 @@
-#!/usr/bin/env bash
-# bash script that configures 'nginx' to run & listen to port 80
-sed -i "s/8080/80/g" /etc/nginx/sites-enabled/default
+#!/bin/bash
+
+apt-get update
+apt-get install -y nginx
+
+sed -i 's/^\(\s*listen\s*.*:\)\(.*\)/\180;\2/' /etc/nginx/sites-available/default
+
+# Start Nginx
+service nginx start
+
+# Check HTML document using curl
 curl -s 0:80
-sudo service nginx stop
+
+# Stop Nginx
+service nginx stop
+
+# Check Nginx status
+service nginx status || true
