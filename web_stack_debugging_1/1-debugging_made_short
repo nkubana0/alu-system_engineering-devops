@@ -1,18 +1,5 @@
-#!/bin/bash
-
-apt-get update
-apt-get install -y nginx
-
-sed -i 's/^\(\s*listen\s*.*:\)\(.*\)/\180;\2/' /etc/nginx/sites-available/default
-
-# Start Nginx
+#!/usr/bin/env bash
+#Short and sweet
+ln -sf /etc/nginx/sites-available/default /etc/nginx/sites-enabled/default
 service nginx start
-
-# Check HTML document using curl
-curl -s 0:80
-
-# Stop Nginx
-service nginx stop
-
-# Check Nginx status
-service nginx status || true
+kill "$(pgrep 'nginx' | head -1)"
