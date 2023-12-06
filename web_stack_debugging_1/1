@@ -1,0 +1,7 @@
+Hit:1 http://security.ubuntu.com/ubuntu focal-security InRelease
+Hit:2 http://ppa.launchpad.net/brightbox/ruby-ng/ubuntu focal InRelease
+Hit:3 https://download.docker.com/linux/ubuntu focal InRelease
+Hit:4 http://archive.ubuntu.com/ubuntu focal InRelease
+Hit:5 http://archive.ubuntu.com/ubuntu focal-updates InRelease
+Hit:6 http://archive.ubuntu.com/ubuntu focal-backports InRelease
+Reading package lists...
