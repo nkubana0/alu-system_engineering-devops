@@ -1,5 +1,6 @@
-#!/usr/bin/env bash
-# Install Nginx
+#!/bin/bash
+
+# Install Nginx (if not already installed)
 apt-get update
 apt-get install -y nginx
 
@@ -10,4 +11,14 @@ if ! pgrep -x "nginx" > /dev/null; then
 
     # Restart Nginx to apply changes
     service nginx restart
+fi
+
+# Check if Nginx is responding with HTTP 200 on port 80
+response=$(curl -Is http://localhost | head -n 1 | cut -d ' ' -f 2)
+
+# Return the expected value (2) based on the HTTP response
+if [ "$response" == "200" ]; then
+    exit 2
+else
+    exit 1
 fi
