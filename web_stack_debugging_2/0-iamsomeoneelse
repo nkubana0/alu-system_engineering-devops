@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 #Another User
-if [ -z $1 ]; then
+if [ -z "$1" ]; then
 	echo "No argument passed"
 else 
-	echo $1
+	echo "$1"
 fi
